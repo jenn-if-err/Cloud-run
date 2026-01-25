@@ -1,7 +1,0 @@
-{
-  "image": "mcr.microsoft.com/devcontainers/universal:2.0.20240101",
-  "features": {
-    "ghcr.io/devcontainers/features/terraform:1": {},
-    "ghcr.io/devcontainers/features/google-cloud-cli:1": {}
-  }
-}
