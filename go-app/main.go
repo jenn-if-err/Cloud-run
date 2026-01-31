@@ -20,12 +20,14 @@ func main() {
 
 	// Start HTTP server.
 	log.Printf("listening on port %s", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatal(err)
+	err := http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		log.Fatalf("failed to start server: %v", err)
 	}
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("received request: %s %s", r.Method, r.URL.Path)
 	name := os.Getenv("NAME")
 	if name == "" {
 		name = "World"
