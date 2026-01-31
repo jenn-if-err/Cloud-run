@@ -1,6 +1,8 @@
-FROM golang:1.24.5 AS builder
+FROM golang:1.24.5-alpine AS builder
+
 
 WORKDIR /app
+
 
 # Copy go.mod and go.sum files
 COPY go.mod .
@@ -12,11 +14,11 @@ RUN go mod download
 # Copy the source code
 COPY . .
 
-# Build the Go app
-RUN go build -v -o server
+# Build a statically linked Go binary
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o server .
 
 # Use a minimal base image for the final container
-FROM gcr.io/distroless/base-debian11
+FROM gcr.io/distroless/static-debian11
 WORKDIR /app
 
 # Copy the built binary from the builder stage
