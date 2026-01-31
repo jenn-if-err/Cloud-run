@@ -1,4 +1,3 @@
-# Start from the official Golang image as a build stage
 FROM golang:1.24.5 AS builder
 
 WORKDIR /app
