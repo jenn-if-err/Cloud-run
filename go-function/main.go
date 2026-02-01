@@ -8,7 +8,10 @@ import (
 
 // HTTP entry point for Google Cloud Functions
 func HelloWorld(w http.ResponseWriter, r *http.Request) {
-	name := os.Getenv("NAME")
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		name = os.Getenv("NAME")
+	}
 	if name == "" {
 		name = "World"
 	}
