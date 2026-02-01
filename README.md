@@ -75,6 +75,38 @@
      --service-account=<SERVICE_ACCOUNT_EMAIL>
      ```
 
+### Redeploy Cloud Function (after code change)
+1. **Auth locally (if needed):**
+   ```
+   gcloud auth activate-service-account <SERVICE_ACCOUNT_EMAIL> --key-file=key.json
+   gcloud config set project <PROJECT_ID>
+   ```
+2. **Redeploy function:**
+   ```
+   cd go-function
+   gcloud functions deploy HelloWorld \
+     --gen2 \
+     --runtime=go121 \
+     --region=<REGION> \
+     --source=. \
+     --entry-point=HelloWorld \
+     --trigger-http \
+     --allow-unauthenticated
+   ```
+   - If you need a custom service account:
+     ```
+     --service-account=<SERVICE_ACCOUNT_EMAIL>
+     ```
+3. **Test your function:**
+   ```
+   curl "<FUNCTION_URL>?name=jen"
+   ```
+   - Replace `<FUNCTION_URL>` with the URL from the deployment output or:
+     ```
+     gcloud functions describe HelloWorld --gen2 --region=<REGION> --format="value(serviceConfig.uri)"
+     ```
+   - Expected output: `Hello jen!`
+
 ---
 
 ## IAM Roles Needed
